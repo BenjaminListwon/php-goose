@@ -17,12 +17,18 @@ class ImageUtils {
      * @return object
      */
     public static function getImageDimensions($filePath) {
-        list($width, $height, $type) = getimagesize($filePath);
-
+        if (file_exists($filePath)) {
+            list($width, $height, $type) = getimagesize($filePath);    
+        } else {
+            $width = 0;
+            $height = 0;
+            $type = '';
+        }
+        
         return (object)[
             'width' => $width,
             'height' => $height,
-            'mime' => image_type_to_mime_type($type),
+            'mime' => $type ? image_type_to_mime_type($type) : '',
         ];
     }
 
